@@ -23,5 +23,55 @@ export const useFetchPayments = () => {
     fetchPayments();
   }, []);
 
-  return { payments, isLoading, error };
+  const calculateSalaryTotal = (payment: Payment) => {
+    return (
+      Number(payment.salary) -
+      Number(payment.advanceMoney) -
+      Number(payment.cardLoan) -
+      Number(payment.discounts) +
+      Number(payment.overTime)
+    );
+  };
+
+  const createPayment = (data: Payment, salaryTotal: number) => {
+    return {
+      nameEmployee: data.nameEmployee,
+      salary: data.salary,
+      store: data.store,
+      datePayment: data.datePayment,
+      overTime: data.overTime,
+      advanceMoney: data.advanceMoney,
+      cardLoan: data.cardLoan,
+      discounts: data.discounts,
+      salaryTotal: salaryTotal.toString(),
+    };
+  };
+
+  const sendPaymentData = async (payment: Payment) => {
+    try {
+      const response = await fetch("http://localhost:3333/payments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payment as Payment),
+      });
+      if (!response.ok) {
+        throw new Error("Erro ao enviar os dados do pagamento");
+      } else {
+        alert("Pagamento registrado com sucesso");
+      }
+    } catch (error) {
+      console.log("Erro ao enviar os dados do pagamento", error);
+    }
+  };
+
+  return {
+    payments,
+    isLoading,
+    error,
+    calculateSalaryTotal,
+    createPayment,
+    sendPaymentData,
+  };
 };

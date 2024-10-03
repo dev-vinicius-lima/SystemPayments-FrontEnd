@@ -4,36 +4,45 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import { Payment } from "../../types/Payments";
+import { useFetchPayments } from "../../hooks/useFetchPayments";
 
 const AddPaymentForm = () => {
   const { register, handleSubmit } = useForm<Payment>();
-  const onSubmit = (data: Payment) => {
-    const calculateSalaryTotal =
-      Number(data.salary) -
-      Number(data.advanceMoney) -
-      Number(data.cardLoan) -
-      Number(data.discounts) +
-      Number(data.overTime);
-    const payment = {
-      nameEmployee: data.nameEmployee,
-      salary: data.salary.toString(),
-      store: data.store,
-      datePayment: data.datePayment,
-      overTime: data.overTime,
-      advanceMoney: data.advanceMoney,
-      cardLoan: data.cardLoan,
-      discounts: data.discounts,
-      salaryTotal: calculateSalaryTotal.toString(),
-    };
-
-    fetch("http://localhost:3333/payments", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payment),
+  const { calculateSalaryTotal, sendPaymentData, createPayment } =
+    useFetchPayments();
+  const onSubmit = async (data: Payment) => {
+    const salaryTotal = calculateSalaryTotal(data);
+    const payment = createPayment(data, salaryTotal);
+    await sendPaymentData(payment as Payment).then(() => {
+      window.location.reload();
     });
   };
+  //   const calculateSalaryTotal =
+  //     Number(data.salary) -
+  //     Number(data.advanceMoney) -
+  //     Number(data.cardLoan) -
+  //     Number(data.discounts) +
+  //     Number(data.overTime);
+  //   const payment = {
+  //     nameEmployee: data.nameEmployee,
+  //     salary: data.salary.toString(),
+  //     store: data.store,
+  //     datePayment: data.datePayment,
+  //     overTime: data.overTime,
+  //     advanceMoney: data.advanceMoney,
+  //     cardLoan: data.cardLoan,
+  //     discounts: data.discounts,
+  //     salaryTotal: calculateSalaryTotal.toString(),
+  //   };
+
+  //   fetch("http://localhost:3333/payments", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(payment),
+  //   });
+  // };
   return (
     <Card className="mb-6">
       <CardHeader>

@@ -35,8 +35,11 @@ export default function EmployeePayments() {
                 <span className="ml-4 text-2xl font-bold text-green-700">
                   R$
                   {payments
-                    .map((payment) => payment.salary)
-                    .reduce((a, b) => a + b, 0)}
+                    .reduce(
+                      (total, payment) => total + Number(payment.salaryTotal),
+                      0
+                    )
+                    .toFixed(2)}
                 </span>
               </div>
             </CardContent>
