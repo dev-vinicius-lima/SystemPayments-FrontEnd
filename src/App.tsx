@@ -16,20 +16,23 @@ export default function EmployeePayments() {
 
   return (
     <div className="container p-4 mx-auto">
+      <h1 className="mb-4 text-2xl font-bold text-center">
+        Gerenciamento de Pagamentos
+      </h1>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
         <div className="lg:col-span-1">
-          <h1 className="mb-4 text-2xl font-bold">
-            Gerenciamento de Pagamentos
-          </h1>
           <AddPaymentForm />
+        </div>
 
-          <Card>
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <span className="text-lg font-semibold">
+        <div className="lg:col-span-3">
+          <PaymentsTable />
+          <Card className="flex items-center justify-center h-20 mt-4 text-center">
+            <CardContent className="w-full h-44">
+              <div className="flex items-center justify-between w-full h-44 ">
+                <span className="text-sm font-semibold md:text-base ">
                   Total de Pagamentos Brutos:
                 </span>
-                <span className="text-2xl font-bold">
+                <span className="ml-4 text-2xl font-bold text-green-700">
                   R$
                   {payments
                     .map((payment) => payment.salary)
@@ -38,10 +41,6 @@ export default function EmployeePayments() {
               </div>
             </CardContent>
           </Card>
-        </div>
-
-        <div className="lg:col-span-3">
-          <PaymentsTable />
         </div>
       </div>
     </div>

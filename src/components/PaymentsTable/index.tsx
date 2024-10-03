@@ -38,13 +38,12 @@ const PaymentsTable = () => {
             <TableBody>
               {[
                 "Loja",
-                "Valor Bruto",
+                "Salário Bruto",
                 "Data",
-                "INSS",
-                "FGTS",
+                "INSS / FGTs",
                 "Cartão",
                 "Adiantamento",
-                "Valor Líquido",
+                "Salário Total",
                 "Ações",
               ].map((detail) => (
                 <TableRow key={detail}>
@@ -61,35 +60,34 @@ const PaymentsTable = () => {
                       case "Loja":
                         cellContent = payment.store;
                         break;
-                      case "Valor Bruto":
+                      case "Salário Bruto":
                         cellContent = `R$ ${payment.salary}`;
                         break;
                       case "Data":
                         cellContent = payment.datePayment;
                         break;
                       case "INSS / FGTS":
-                        cellContent = `R$ ${payment.discounts}`;
+                        cellContent = `- R$ ${payment.discounts}`;
                         break;
 
                       case "Cartão":
-                        cellContent = `R$ ${payment.cardLoan}`;
+                        cellContent = `- R$ ${payment.cardLoan}`;
                         break;
                       case "Adiantamento":
-                        cellContent = `R$ ${payment.advanceMoney}`;
+                        cellContent = `- R$ ${payment.advanceMoney}`;
                         break;
-                      case "Valor Líquido": {
-                        const salaryTotal = payment.salaryTotal;
-                        cellContent = `R$ ${salaryTotal}`;
+                      case "Salário Total": {
+                        cellContent = `R$ ${payment.salaryTotal}`;
                         break;
                       }
                       case "Ações":
                         cellContent = (
                           <div className="flex justify-center space-x-2">
                             <Button variant="ghost" size="icon">
-                              <Pencil1Icon className="w-4 h-4" />
+                              <Pencil1Icon className="w-4 h-4" color="blue" />
                             </Button>
                             <Button variant="ghost" size="icon">
-                              <TrashIcon className="w-4 h-4" />
+                              <TrashIcon className="w-4 h-4" color="red" />
                             </Button>
                           </div>
                         );
@@ -99,7 +97,7 @@ const PaymentsTable = () => {
                     }
                     return (
                       <TableCell
-                        key={employee.nameEmployee}
+                        key={employee.salaryTotal}
                         className="text-center"
                       >
                         {cellContent}
