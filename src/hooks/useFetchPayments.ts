@@ -29,7 +29,8 @@ export const useFetchPayments = () => {
       Number(payment.advanceMoney) -
       Number(payment.cardLoan) -
       Number(payment.discounts) +
-      Number(payment.overTime)
+      Number(payment.overTime) +
+      Number(payment.bonification)
     );
   };
 
@@ -39,6 +40,7 @@ export const useFetchPayments = () => {
       salary: data.salary,
       store: data.store,
       datePayment: data.datePayment,
+      bonification: data.bonification,
       overTime: data.overTime,
       advanceMoney: data.advanceMoney,
       cardLoan: data.cardLoan,

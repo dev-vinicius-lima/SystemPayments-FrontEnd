@@ -14,6 +14,27 @@ import {
 
 const PaymentsTable = () => {
   const { payments } = useFetchPayments();
+
+  const handleDelete = async ({ id }: { id: string }) => {
+    const filteredPayments = payments?.filter((payment) => payment.id !== id);
+
+    if (filteredPayments) {
+      const response = await fetch(`http://localhost:3333/payments/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(filteredPayments),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao deletar o pagamento");
+      }
+
+      alert("Pagamento deletado com sucesso");
+      window.location.reload();
+    }
+  };
   return (
     <Card>
       <CardHeader>
@@ -43,6 +64,8 @@ const PaymentsTable = () => {
                 "INSS / FGTs",
                 "Cartão",
                 "Adiantamento",
+                "Horas Extras",
+                "Bonicações / salário familia",
                 "Salário Total",
                 "Ações",
               ].map((detail) => (
@@ -64,11 +87,20 @@ const PaymentsTable = () => {
                         cellContent = `R$ ${payment.salary}`;
                         break;
                       case "Data":
-                        cellContent = payment.datePayment;
+                        {
+                          const date = new Date(payment.datePayment);
+                          cellContent = date.toLocaleDateString("pt-BR", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                          });
+                          break;
+                        }
                         break;
-                      case "INSS / FGTS":
+                      case "INSS / FGTs": {
                         cellContent = `- R$ ${payment.discounts}`;
                         break;
+                      }
 
                       case "Cartão":
                         cellContent = `- R$ ${payment.cardLoan}`;
@@ -76,6 +108,16 @@ const PaymentsTable = () => {
                       case "Adiantamento":
                         cellContent = `- R$ ${payment.advanceMoney}`;
                         break;
+                      case "Horas Extras": {
+                        cellContent = `+ R$ ${payment.overTime}`;
+                        break;
+                      }
+
+                      case "Bonicações / salário familia": {
+                        cellContent = `- R$ ${payment.bonification}`;
+                        break;
+                      }
+
                       case "Salário Total": {
                         cellContent = `R$ ${payment.salaryTotal}`;
                         break;
@@ -86,7 +128,13 @@ const PaymentsTable = () => {
                             <Button variant="ghost" size="icon">
                               <Pencil1Icon className="w-4 h-4" color="blue" />
                             </Button>
-                            <Button variant="ghost" size="icon">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() =>
+                                handleDelete({ id: payment.id as string })
+                              }
+                            >
                               <TrashIcon className="w-4 h-4" color="red" />
                             </Button>
                           </div>
