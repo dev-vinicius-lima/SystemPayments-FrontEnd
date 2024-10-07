@@ -1,13 +1,13 @@
 export type Payment = {
   id?: string;
   nameEmployee: string;
-  salary: string;
+  salary: number;
   store: string;
   datePayment: string;
-  overTime?: string | null;
-  bonification?: string | null;
-  advanceMoney?: string | null;
-  cardLoan?: string | null;
-  discounts: string | null;
-  salaryTotal: string;
+  overTime?: number;
+  bonification?: number;
+  advanceMoney?: number;
+  cardLoan?: number;
+  discounts: number;
+  salaryTotal: number;
 };

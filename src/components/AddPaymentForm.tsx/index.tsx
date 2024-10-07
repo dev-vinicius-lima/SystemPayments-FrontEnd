@@ -10,74 +10,24 @@ const AddPaymentForm = () => {
   const { register, handleSubmit } = useForm<Payment>({
     defaultValues: {
       nameEmployee: "",
-      salary: "",
+      salary: 0,
       store: "",
       datePayment: "",
-      bonification: "",
-      overTime: "",
-      advanceMoney: "",
-      cardLoan: "",
-      discounts: "",
+      bonification: 0,
+      overTime: 0,
+      advanceMoney: 0,
+      cardLoan: 0,
+      discounts: 0,
     },
   });
-  const { calculateSalaryTotal, sendPaymentData, createPayment } =
-    useFetchPayments();
+  const { sendPaymentData, createPayment } = useFetchPayments();
   const onSubmit = async (data: Payment) => {
-    const salaryTotal = calculateSalaryTotal(data);
-    const payment = createPayment(data, salaryTotal);
+    const payment = createPayment(data);
     await sendPaymentData(payment as Payment).then(() => {
       window.location.reload();
     });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.currentTarget;
-    let value = input.value.replace(/[^0-9.,]/g, "");
-
-    // Remove ponto se existir antes da vírgula
-    value = value.replace(/\./g, "").replace(",", ".");
-
-    // Converter para número
-    const numericValue = Number(value);
-
-    register(e.currentTarget.name as keyof Payment).onChange(e);
-
-    if (!isNaN(numericValue)) {
-      const formattedValue = new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-        maximumFractionDigits: 2,
-      }).format(numericValue);
-
-      input.value = formattedValue;
-    }
-  };
-
-  //     Number(data.salary) -
-  //     Number(data.advanceMoney) -
-  //     Number(data.cardLoan) -
-  //     Number(data.discounts) +
-  //     Number(data.overTime);
-  //   const payment = {
-  //     nameEmployee: data.nameEmployee,
-  //     salary: data.salary.toString(),
-  //     store: data.store,
-  //     datePayment: data.datePayment,
-  //     overTime: data.overTime,
-  //     advanceMoney: data.advanceMoney,
-  //     cardLoan: data.cardLoan,
-  //     discounts: data.discounts,
-  //     salaryTotal: calculateSalaryTotal.toString(),
-  //   };
-
-  //   fetch("http://localhost:3333/payments", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(payment),
-  //   });
-  // };
   return (
     <Card className="mb-6">
       <CardHeader>
@@ -105,11 +55,10 @@ const AddPaymentForm = () => {
           <label className="text-xs">
             Salário
             <Input
-              type="text"
+              type="number"
               placeholder="Salario Bruto"
               {...register("salary")}
               className="mb-2"
-              onChange={handleChange}
             />
           </label>
 

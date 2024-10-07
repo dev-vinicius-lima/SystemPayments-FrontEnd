@@ -34,18 +34,20 @@ export const useFetchPayments = () => {
     );
   };
 
-  const createPayment = (data: Payment, salaryTotal: number) => {
+  const createPayment = (data: Payment) => {
+    const salaryTotal = calculateSalaryTotal(data);
+
     return {
       nameEmployee: data.nameEmployee,
-      salary: data.salary,
+      salary: Number(data.salary),
       store: data.store,
       datePayment: data.datePayment,
-      bonification: data.bonification,
-      overTime: data.overTime,
-      advanceMoney: data.advanceMoney,
-      cardLoan: data.cardLoan,
-      discounts: data.discounts,
-      salaryTotal: salaryTotal.toString(),
+      bonification: Number(data.bonification),
+      overTime: Number(data.overTime),
+      advanceMoney: Number(data.advanceMoney),
+      cardLoan: Number(data.cardLoan),
+      discounts: Number(data.discounts),
+      salaryTotal: salaryTotal,
     };
   };
 

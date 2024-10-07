@@ -35,6 +35,9 @@ const PaymentsTable = () => {
       window.location.reload();
     }
   };
+
+
+  
   return (
     <Card>
       <CardHeader>
@@ -114,7 +117,7 @@ const PaymentsTable = () => {
                       }
 
                       case "Bonicações / salário familia": {
-                        cellContent = `- R$ ${payment.bonification}`;
+                        cellContent = `+ R$ ${payment.bonification}`;
                         break;
                       }
 
