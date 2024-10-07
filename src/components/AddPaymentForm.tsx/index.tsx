@@ -1,13 +1,16 @@
 import { PlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useFetchPayments } from "../../hooks/useFetchPayments";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Payment } from "../../types/Payments";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Input } from "../ui/input";
+import FormField, { User } from "../FormField.tsx";
 
 const AddPaymentForm = () => {
-  const { register, handleSubmit } = useForm<Payment>({
+
+  const { register, handleSubmit, formState: { errors } } = useForm<Payment>({
+  resolver: zodResolver(User),
     defaultValues: {
       nameEmployee: "",
       salary: 0,
@@ -20,6 +23,7 @@ const AddPaymentForm = () => {
       discounts: 0,
     },
   });
+  
   const { sendPaymentData, createPayment } = useFetchPayments();
   const onSubmit = async (data: Payment) => {
     const payment = createPayment(data);
@@ -35,91 +39,24 @@ const AddPaymentForm = () => {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          <label className="text-xs">
-            Loja
-            <Input
-              placeholder="Shopping"
-              {...register("store")}
-              id="loja"
-              className="mb-2"
-            />
-          </label>
-          <label className="text-xs">
-            Funcionário
-            <Input
-              placeholder="Nome do Funcionário"
-              {...register("nameEmployee")}
-              className="mb-2"
-            />
-          </label>
-          <label className="text-xs">
-            Salário
-            <Input
-              type="number"
-              placeholder="Salario Bruto"
-              {...register("salary")}
-              className="mb-2"
-            />
-          </label>
+          <FormField label="Loja" placeholder="Nome da loja" type="text" register={register("store")} error={errors.store?.message}/>
 
-          <label className="text-xs">
-            Data
-            <Input
-              type="date"
-              placeholder="Data do Pagamento"
-              {...register("datePayment")}
-              className="mb-2"
-            />
-          </label>
+          <FormField label="Funcionário" placeholder="Nome do Funcionário" type="text" register={register("nameEmployee")} error={errors.nameEmployee?.message}/>
+        
+          <FormField label="Salário" placeholder="Salário" type="number" register={register("salary")} error={errors.salary?.message}/>
 
-          <label className="text-xs">
-            Desconto INSS / FGTs
-            <Input
-              type="number"
-              placeholder="Desconto INSS"
-              {...register("discounts")}
-              className="mb-2"
-            />
-          </label>
+          <FormField label="Data" placeholder="Data" type="date" register={register("datePayment")} error={errors.datePayment?.message}/>
 
-          <label className="text-xs">
-            Desconto Cartão
-            <Input
-              type="number"
-              placeholder="Desconto Cartão"
-              {...register("cardLoan")}
-              className="mb-2"
-            />
-          </label>
+          <FormField label="Desconto INSS / FGTs" placeholder="Desconsto INSS / FGTs" type="number" register={register("discounts")} error={errors.overTime?.message}/>
 
-          <label className="text-xs">
-            Desconto Adiantamento
-            <Input
-              type="number"
-              placeholder="Desconto Adiantamento"
-              {...register("advanceMoney")}
-              className="mb-2"
-            />
-          </label>
-          <label className="text-xs">
-            Bonificação / Salário Família
-            <Input
-              type="number"
-              placeholder="Bonificação / Salário Família"
-              {...register("bonification")}
-              className="mb-2"
-            />
-          </label>
+          <FormField label="Emprestimo em Cartão" placeholder="Emprestimo em Cartão" type="number" register={register("cardLoan")} error={errors.cardLoan?.message}/>
 
-          <label className="text-xs">
-            Horas Extras
-            <Input
-              type="number"
-              placeholder="Valor das Horas Extras"
-              {...register("overTime")}
-              className="mb-2"
-            />
-          </label>
+          <FormField label="Dinheiro Antecipado" placeholder="Dinheiro Antecipado" type="number" register={register("advanceMoney")} error={errors.advanceMoney?.message}/>
+
+          
+          <FormField label="Bonificação" placeholder="Bonificação" type="number" register={register("bonification")} error={errors.bonification?.message}/>
+
+          <FormField label="Horas Extras" placeholder="Horas Extras" type="number" register={register("overTime")} error={errors.overTime?.message}/>
         </div>
         <Button className="w-full mt-4 button" onClick={handleSubmit(onSubmit)}>
           <PlusIcon className="w-4 h-4 mr-2" /> Adicionar Pagamento
@@ -130,3 +67,5 @@ const AddPaymentForm = () => {
 };
 
 export default AddPaymentForm;
+
+
