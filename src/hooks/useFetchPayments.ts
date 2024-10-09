@@ -53,13 +53,16 @@ export const useFetchPayments = () => {
 
   const sendPaymentData = async (payment: Payment) => {
     try {
-      const response = await fetch("http://localhost:3333/payments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payment as Payment),
-      });
+      const response = await fetch(
+        "https://systempayments.onrender.com/payments",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payment as Payment),
+        }
+      );
       if (!response.ok) {
         throw new Error("Erro ao enviar os dados do pagamento");
       } else {

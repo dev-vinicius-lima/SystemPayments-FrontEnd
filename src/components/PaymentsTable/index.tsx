@@ -19,7 +19,7 @@ const PaymentsTable = () => {
     const filteredPayments = payments?.filter((payment) => payment.id !== id);
 
     if (filteredPayments) {
-      const response = await fetch(`http://localhost:3333/payments/${id}`, {
+      const response = await fetch(`https://systempayments.onrender.com/payments/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
