@@ -16,12 +16,12 @@ export default function EmployeePayments() {
   return (
     <div className="container p-4 mx-auto">
       <div className="flex items-center justify-center gap-4 ">
-        {!localStorage.getItem("login") && (
+        {!localStorage.getItem("cookie") && (
           <div className="flex flex-col items-center justify-center w-full">
             <Login />
           </div>
         )}
-        {localStorage.getItem("login") === "true" && (
+        {localStorage.getItem("cookie") === "true" && (
           <>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
               <div className="flex flex-col items-center justify-center w-full">
@@ -52,7 +52,7 @@ export default function EmployeePayments() {
               </div>
               <button
                 onClick={() => {
-                  localStorage.removeItem("login");
+                  localStorage.removeItem("cookie");
                   window.location.reload();
                 }}
                 className="px-4 py-2 mt-4 font-bold text-white bg-red-500 rounded-lg shadow-lg hover:bg-red-600"
