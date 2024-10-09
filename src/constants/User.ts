@@ -1,4 +1,5 @@
 export const Users = {
-  email: "mailagomes@gmail.com",
+  nome: "Maila Gomes",
+  email: "mailagomes04@gmail.com",
   senha: "1235795",
 };

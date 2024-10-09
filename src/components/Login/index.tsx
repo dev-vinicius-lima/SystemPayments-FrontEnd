@@ -16,7 +16,7 @@ const Login = () => {
       <h1 className="px-4 py-4 my-10 text-2xl font-bold text-center bg-white rounded-lg shadow-lg">
         Gerenciamento de Pagamentos
       </h1>
-      <div className="flex flex-col items-center justify-center gap-4 px-6 bg-gray-100 rounded-lg shadow-lg w-96 h-96">
+      <div className="flex flex-col items-center justify-center gap-4 px-6 bg-gray-100 rounded-lg shadow-lg w-80 lg:w-[500px] h-80 lg:h-96">
         <h1 className="mb-6 text-2xl font-bold">Seja Bem Vinda!</h1>
         <h2 className="mb-6 text-xl font-bold ">Login</h2>
         <form
